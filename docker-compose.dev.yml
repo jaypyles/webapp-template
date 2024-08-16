@@ -5,10 +5,15 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.frontend.rule=Host(`${HOSTNAME}`)"
       - "traefik.http.routers.frontend.entrypoints=web"
-      - "traefik.http.services.frontend.loadbalancer.server.port=8000"
+      - "traefik.http.services.frontend.loadbalancer.server.port=3000"
       - "traefik.http.routers.frontend.tls=false"
     volumes:
-      - "$PWD/dist:/project/api/dist"
-      - "$PWD/api/backend:/project/api/backend"
+      - "$PWD/src:/project/src"
+    ports:
+      - "3000:3000"
+    command: ["npm", "run", "dev"]
+  backend:
     ports:
       - "8000:8000"
+    volumes:
+      - "$PWD/api:/project/api"
